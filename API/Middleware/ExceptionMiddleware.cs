@@ -4,9 +4,10 @@ using System.Text.Json;
 
 namespace API.Middleware
 {
-    public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
+    public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger,
+    IHostEnvironment env)
     {
-        public async Task InvokeAsync(HttpContext context) 
+        public async Task InvokeAsync(HttpContext context)
         {
             try
             {
@@ -20,7 +21,7 @@ namespace API.Middleware
 
                 var response = env.IsDevelopment()
                     ? new ApiException(context.Response.StatusCode, ex.Message, ex.StackTrace)
-                    : new ApiException(context.Response.StatusCode, ex.Message, ex.StackTrace);
+                    : new ApiException(context.Response.StatusCode, ex.Message, "Internal server error");
 
                 var options = new JsonSerializerOptions
                 {
